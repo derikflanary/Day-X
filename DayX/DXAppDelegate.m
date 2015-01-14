@@ -19,10 +19,17 @@
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController: detailViewController];
     self.window.rootViewController = navController;
     
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    detailViewController.navigationItem.rightBarButtonItem = doneButton;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
+-(void) donePressed{
+    
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

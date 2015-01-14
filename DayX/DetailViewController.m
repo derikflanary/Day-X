@@ -20,9 +20,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"Day X";
     self.textField.delegate = self;
     self.textFieldTwo.delegate = self;
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -34,19 +36,24 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     [textField resignFirstResponder];
-    
     return YES;
 }
-- (IBAction)doneButtonPressed:(id)sender {
-    [self resignFirstResponder];
-    
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
+    return YES;
 }
+
+- (void) donePressed{
+    [self.textField resignFirstResponder];
+    [self.textFieldTwo resignFirstResponder];
+}
+
 
 
 - (IBAction)clearButtonPressed:(id)sender {
     self.textField.text = nil;
     self.textFieldTwo.text  = nil;
 }
+
 /*
 #pragma mark - Navigation
 
