@@ -25,7 +25,8 @@
     self.textField.delegate = self;
     self.textFieldTwo.delegate = self;
     
-    // Do any additional setup after loading the view from its nib.
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    self.navigationItem.rightBarButtonItem = doneButton;
 }
 
 - (void)didReceiveMemoryWarning {
