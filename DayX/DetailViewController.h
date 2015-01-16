@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString *entryKey = @"entryKey";
+static NSString *titleKey = @"titleKey";
+static NSString *textKey = @"textKey";
+static NSString *dateKey = @"dateKey";
+
 @interface DetailViewController : UIViewController
 
 

@@ -8,6 +8,7 @@
 
 #import "DXAppDelegate.h"
 #import "DetailViewController.h"
+#import "ListViewController.h"
 
 @implementation DXAppDelegate
 
@@ -15,8 +16,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    DetailViewController *detailViewController = [DetailViewController new];
-    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController: detailViewController];
+    //DetailViewController *detailViewController = [DetailViewController new];
+    ListViewController *listViewController = [ListViewController new];
+    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController: listViewController];
     self.window.rootViewController = navController;
     
     

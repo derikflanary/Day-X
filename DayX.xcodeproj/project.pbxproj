@@ -21,6 +21,9 @@
 		711A508F19388096005642EF /* DayXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 711A508E19388096005642EF /* DayXTests.m */; };
 		EE5D87F61A6617CD0000A9F9 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5D87F41A6617CD0000A9F9 /* DetailViewController.m */; };
 		EE5D87F71A6617CD0000A9F9 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5D87F51A6617CD0000A9F9 /* DetailViewController.xib */; };
+		EEE99A5C1A68586700D35D2F /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE99A5A1A68586700D35D2F /* ListViewController.m */; };
+		EEE99A5D1A68586700D35D2F /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEE99A5B1A68586700D35D2F /* ListViewController.xib */; };
+		EEE99A631A6989F200D35D2F /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE99A621A6989F200D35D2F /* Entry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,11 @@
 		EE5D87F31A6617CD0000A9F9 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		EE5D87F41A6617CD0000A9F9 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		EE5D87F51A6617CD0000A9F9 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		EEE99A591A68586700D35D2F /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		EEE99A5A1A68586700D35D2F /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		EEE99A5B1A68586700D35D2F /* ListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
+		EEE99A611A6989F200D35D2F /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
+		EEE99A621A6989F200D35D2F /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +122,13 @@
 			children = (
 				711A507819388095005642EF /* DXAppDelegate.h */,
 				711A507919388095005642EF /* DXAppDelegate.m */,
+				EEE99A591A68586700D35D2F /* ListViewController.h */,
+				EEE99A5A1A68586700D35D2F /* ListViewController.m */,
+				EEE99A611A6989F200D35D2F /* Entry.h */,
+				EEE99A621A6989F200D35D2F /* Entry.m */,
 				EE5D87F31A6617CD0000A9F9 /* DetailViewController.h */,
 				EE5D87F41A6617CD0000A9F9 /* DetailViewController.m */,
+				EEE99A5B1A68586700D35D2F /* ListViewController.xib */,
 				EE5D87F51A6617CD0000A9F9 /* DetailViewController.xib */,
 				711A507B19388095005642EF /* Images.xcassets */,
 				711A507019388095005642EF /* Supporting Files */,
@@ -230,6 +243,7 @@
 			files = (
 				711A507419388095005642EF /* InfoPlist.strings in Resources */,
 				EE5D87F71A6617CD0000A9F9 /* DetailViewController.xib in Resources */,
+				EEE99A5D1A68586700D35D2F /* ListViewController.xib in Resources */,
 				711A507C19388095005642EF /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				711A507A19388095005642EF /* DXAppDelegate.m in Sources */,
+				EEE99A631A6989F200D35D2F /* Entry.m in Sources */,
 				711A507619388095005642EF /* main.m in Sources */,
+				EEE99A5C1A68586700D35D2F /* ListViewController.m in Sources */,
 				EE5D87F61A6617CD0000A9F9 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
