@@ -9,10 +9,13 @@
 #import "ListViewController.h"
 #import "DetailViewController.h"
 #import "Entry.h"
+#import "TableViewCellStyleTableViewCell.h"
 
 @interface ListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, assign)NSInteger rowCount;
+@property (nonatomic, strong)NSArray *entryArrayFromDefaults;
+
 @end
 
 @implementation ListViewController
@@ -30,20 +33,20 @@
     
     //Entry Controller Stuff
     
-    NSArray *entryArrayFromDefaults = [self loadEntriesFromDefaults];
-    NSMutableArray *mutableEntryArrayFromDefaults = [NSMutableArray arrayWithArray:entryArrayFromDefaults];
+    self.entryArrayFromDefaults = [self loadEntriesFromDefaults];
+    NSMutableArray *mutableEntryArrayFromDefaults = [NSMutableArray arrayWithArray:self.entryArrayFromDefaults];
     
-    self.rowCount = [entryArrayFromDefaults count];
+    self.rowCount = [self.entryArrayFromDefaults count];
     
-    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
-    [newEntryDict setValue:@"My Day" forKey:titleKey];
-    [newEntryDict setValue:@"It was a good day" forKey:textKey];
-    [newEntryDict setValue:[NSDate date] forKey:dateKey];
-
-    Entry *newEntry = [[Entry alloc]initWithDictionary:newEntryDict];
-    [mutableEntryArrayFromDefaults addObject:newEntry];
-    
-    [self storeEntriesToDefaults:mutableEntryArrayFromDefaults];
+//    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
+//    [newEntryDict setValue:@"My Day" forKey:titleKey];
+//    [newEntryDict setValue:@"It was a good day" forKey:textKey];
+//    [newEntryDict setValue:[NSDate date] forKey:dateKey];
+//
+//    Entry *newEntry = [[Entry alloc]initWithDictionary:newEntryDict];
+//    [mutableEntryArrayFromDefaults addObject:newEntry];
+//    
+//    [self storeEntriesToDefaults:mutableEntryArrayFromDefaults];
     
 }
 
@@ -83,17 +86,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell One"];
+    TableViewCellStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell One"];
     if (!cell){
-        cell = [UITableViewCell new];
+        cell = [TableViewCellStyleTableViewCell new];
     }
-
-    cell.textLabel.text = @"Entry";
+    Entry *entry = [Entry new];
+    entry = [self.entryArrayFromDefaults objectAtIndex:indexPath.row];
+    cell.textLabel.text = entry.title;
+    cell.detailTextLabel.text = @"the date";
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -101,8 +105,7 @@
 -(void)addEntry:(id)sender{
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
-    
-    self.rowCount ++;
+   
 //    NSNumber *rowNum = [NSNumber numberWithInteger:self.rowCount];
 //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //    [defaults setObject:rowNum forKey:@"rowCount"];
