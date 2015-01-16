@@ -36,7 +36,6 @@
     self.rowCount = [entryArrayFromDefaults count];
     
     NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
-    
     [newEntryDict setValue:@"My Day" forKey:titleKey];
     [newEntryDict setValue:@"It was a good day" forKey:textKey];
     [newEntryDict setValue:[NSDate date] forKey:dateKey];
@@ -59,7 +58,7 @@
 }
 
 -(void)storeEntriesToDefaults:(NSArray *)entryArray{
-    NSMutableArray *mutableEntryDictionaries;
+    NSMutableArray *mutableEntryDictionaries = [NSMutableArray array];
     for (Entry *entry in entryArray) {
         NSDictionary *entryDictionary = [entry entryDictionary];
         [mutableEntryDictionaries addObject:entryDictionary];
@@ -77,9 +76,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSNumber *rowNum = [defaults objectForKey:@"rowCount"];
-//    self.rowCount = [rowNum integerValue];
+
     return self.rowCount;
 }
 
@@ -90,9 +87,7 @@
     if (!cell){
         cell = [UITableViewCell new];
     }
-//    NSDictionary *entryDict;
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    entryDict = [defaults objectForKey:@"entryKey"];
+
     cell.textLabel.text = @"Entry";
     return cell;
 }

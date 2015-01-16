@@ -24,7 +24,7 @@
 }
 
 -(NSDictionary *)entryDictionary{
-    NSMutableDictionary *mutableEntryDict;
+    NSMutableDictionary *mutableEntryDict = [NSMutableDictionary dictionary];
     if (self.title){
         [mutableEntryDict setValue:self.title forKey:titleKey];
     }
