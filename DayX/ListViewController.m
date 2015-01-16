@@ -35,7 +35,6 @@
     
     self.entryArrayFromDefaults = [self loadEntriesFromDefaults];
     NSMutableArray *mutableEntryArrayFromDefaults = [NSMutableArray arrayWithArray:self.entryArrayFromDefaults];
-    
     self.rowCount = [self.entryArrayFromDefaults count];
 //    
 //    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
@@ -79,7 +78,6 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
     return self.rowCount;
 }
 
@@ -112,17 +110,12 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
 
     detailViewController.entryIndex = indexPath.row;
-    NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
+    //NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
 }
 
 -(void)addEntry:(id)sender{
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
-   
-//    NSNumber *rowNum = [NSNumber numberWithInteger:self.rowCount];
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    [defaults setObject:rowNum forKey:@"rowCount"];
-//    [defaults synchronize];
     
 }
 
