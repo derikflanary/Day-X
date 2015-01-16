@@ -14,7 +14,7 @@
 @interface ListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, assign)NSInteger rowCount;
-@property (nonatomic, strong)NSArray *entryArrayFromDefaults;
+
 
 @end
 
@@ -99,12 +99,20 @@
     
     cell.textLabel.text = entry.title;
     cell.detailTextLabel.text = dateOfEntry;
+    
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 75;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
+
+    detailViewController.entryIndex = indexPath.row;
+    NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
 }
 
 -(void)addEntry:(id)sender{

@@ -15,5 +15,7 @@ static NSString *dateKey = @"dateKey";
 
 @interface DetailViewController : UIViewController
 
+@property (nonatomic, assign)NSInteger entryIndex;
+
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "DetailViewController.h"
+#import "Entry.h"
+#import "ListViewController.h"
 
 @interface DetailViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -26,13 +28,10 @@
     
     self.title = @"Day X";
     self.textField.delegate = self;
-    
-    
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+//    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+//    self.navigationItem.rightBarButtonItem = doneButton;
     
     [self updateWithDictionary];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,12 +67,16 @@
 }
 
 -(void)updateWithDictionary{
-  
-    NSDictionary *entryDict;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    entryDict = [defaults objectForKey:entryKey];
-    self.textField.text = [entryDict objectForKey:titleKey];
-    self.textView.text = [entryDict objectForKey:textKey];
+//    NSDictionary *entryDict;
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    entryDict = [defaults objectForKey:entryKey];
+    ListViewController *listViewController = [ListViewController new];
+    listViewController.entryArrayFromDefaults = [listViewController loadEntriesFromDefaults];
+    NSLog(@"%lu", self.entryIndex);
+    Entry *entry = [Entry new];
+    entry = [listViewController.entryArrayFromDefaults objectAtIndex:self.entryIndex];
+    self.textField.text = entry.title;
+    self.textView.text = entry.text;
 }
 
 - (IBAction)clearButtonPressed:(id)sender {
