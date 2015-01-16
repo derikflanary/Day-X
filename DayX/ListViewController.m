@@ -37,10 +37,10 @@
     NSMutableArray *mutableEntryArrayFromDefaults = [NSMutableArray arrayWithArray:self.entryArrayFromDefaults];
     
     self.rowCount = [self.entryArrayFromDefaults count];
-    
+//    
 //    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
-//    [newEntryDict setValue:@"My Day" forKey:titleKey];
-//    [newEntryDict setValue:@"It was a good day" forKey:textKey];
+//    [newEntryDict setValue:@"The Next Day" forKey:titleKey];
+//    [newEntryDict setValue:@"This day was awful" forKey:textKey];
 //    [newEntryDict setValue:[NSDate date] forKey:dateKey];
 //
 //    Entry *newEntry = [[Entry alloc]initWithDictionary:newEntryDict];
