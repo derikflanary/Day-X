@@ -92,8 +92,13 @@
     }
     Entry *entry = [Entry new];
     entry = [self.entryArrayFromDefaults objectAtIndex:indexPath.row];
+    
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"dd-MM-yyyy 'at' HH:mm"];
+    NSString *dateOfEntry = [dateFormatter stringFromDate:entry.date];
+    
     cell.textLabel.text = entry.title;
-    cell.detailTextLabel.text = @"the date";
+    cell.detailTextLabel.text = dateOfEntry;
     return cell;
 }
 
