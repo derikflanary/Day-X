@@ -9,6 +9,10 @@
 #import "Entry.h"
 #import "DetailViewController.h"
 
+static NSString * const titleKey = @"titleKey";
+static NSString * const textKey = @"textKey";
+static NSString * const dateKey = @"dateKey";
+
 @implementation Entry
 
 

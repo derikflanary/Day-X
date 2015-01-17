@@ -11,9 +11,5 @@
 @interface ListViewController : UIViewController
 
 
-@property (nonatomic, strong)NSArray *entryArrayFromDefaults;
-
--(NSArray *)loadEntriesFromDefaults;
--(void)storeEntriesToDefaults:(NSArray *)entryArray;
 
 @end

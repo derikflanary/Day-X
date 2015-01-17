@@ -7,10 +7,9 @@
 //
 
 #import "DetailViewController.h"
-#import "Entry.h"
 #import "ListViewController.h"
 
-@interface DetailViewController () <UITextFieldDelegate>
+@interface DetailViewController () <UITextFieldDelegate, UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong)UILabel *charCountLabel;
@@ -32,13 +31,17 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
-    UILabel *charCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 400, 100, 30)];
-    charCountLabel.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:charCountLabel];
+    self.navigationItem.prompt = @"Add an entry";
+    
+    self.charCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 400, 100, 30)];
+    self.charCountLabel.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:self.charCountLabel];
+    
+    self.textView.delegate = self;
     
     [self updateWithDictionary];
     NSInteger charCount = [self.textView.text length];
-    charCountLabel.text = [@(charCount) stringValue];
+    self.charCountLabel.text = [@(charCount) stringValue];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,13 +51,9 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    
-
     return YES;
 }
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
-   
-
     return YES;
 }
 
@@ -65,29 +64,37 @@
 }
 
 - (IBAction)savePressed:(id)sender {
+    
     NSString *title = self.textField.text;
     NSString *text = self.textView.text;
     NSDate *date = [NSDate date];
     NSDictionary *entriesDict;
-    entriesDict = @{titleKey: title,
-                    textKey: text,
-                    dateKey: date};
+    entriesDict = @{@"titleKey": title,
+                    @"textKey": text,
+                    @"dateKey": date};
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:entriesDict forKey:entryKey];
-    [defaults synchronize];
+    Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
+    [[EntryController sharedInstance]addEntry:changedEntry];
+    
+}
+
+- (void)updateWithEntry:(Entry *)entry {
+    
+    self.textField.text = entry.title;
+    self.textView.text = entry.text;
+
+    
+    
+   
+    
 }
 
 -(void)updateWithDictionary{
 
-    ListViewController *listViewController = [ListViewController new];
-    listViewController.entryArrayFromDefaults = [listViewController loadEntriesFromDefaults];
-    //NSLog(@"%lu", self.entryIndex);
-    Entry *entry = [Entry new];
-    entry = [listViewController.entryArrayFromDefaults objectAtIndex:self.entryIndex];
-    self.textField.text = entry.title;
-    self.textView.text = entry.text;
-}
+    
+    
+    
+    }
 
 - (IBAction)clearButtonPressed:(id)sender {
     self.textField.text = nil;
@@ -95,13 +102,14 @@
     //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     //[defaults removeObjectForKey:entryKey];
 }
-
-- (BOOL)shouldChangeTextInRange:(UITextRange *)range replacementText:(NSString *)text{
+-(void)textViewDidChange:(UITextView *)textView{
     NSInteger charCount;
     charCount = [self.textView.text length];
-    self.charCountLabel.text = [@(charCount) stringValue];
-    return YES;
+    NSString *title = [NSString stringWithFormat:@"%lu", charCount];
+    self.charCountLabel.text = title;
+
 }
+
 
 /*
 #pragma mark - Navigation

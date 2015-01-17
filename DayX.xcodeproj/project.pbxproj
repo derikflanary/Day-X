@@ -25,6 +25,7 @@
 		EEE99A5D1A68586700D35D2F /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEE99A5B1A68586700D35D2F /* ListViewController.xib */; };
 		EEE99A631A6989F200D35D2F /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE99A621A6989F200D35D2F /* Entry.m */; };
 		EEE99A661A69C47C00D35D2F /* TableViewCellStyleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE99A651A69C47C00D35D2F /* TableViewCellStyleTableViewCell.m */; };
+		EEE99A721A6AECF900D35D2F /* EntryController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE99A711A6AECF900D35D2F /* EntryController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		EEE99A621A6989F200D35D2F /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
 		EEE99A641A69C47C00D35D2F /* TableViewCellStyleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCellStyleTableViewCell.h; sourceTree = "<group>"; };
 		EEE99A651A69C47C00D35D2F /* TableViewCellStyleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCellStyleTableViewCell.m; sourceTree = "<group>"; };
+		EEE99A701A6AECF900D35D2F /* EntryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryController.h; sourceTree = "<group>"; };
+		EEE99A711A6AECF900D35D2F /* EntryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 				EEE99A5A1A68586700D35D2F /* ListViewController.m */,
 				EE5D87F31A6617CD0000A9F9 /* DetailViewController.h */,
 				EE5D87F41A6617CD0000A9F9 /* DetailViewController.m */,
+				EEE99A701A6AECF900D35D2F /* EntryController.h */,
+				EEE99A711A6AECF900D35D2F /* EntryController.m */,
 				EEE99A611A6989F200D35D2F /* Entry.h */,
 				EEE99A621A6989F200D35D2F /* Entry.m */,
 				EEE99A641A69C47C00D35D2F /* TableViewCellStyleTableViewCell.h */,
@@ -272,6 +277,7 @@
 				EEE99A631A6989F200D35D2F /* Entry.m in Sources */,
 				711A507619388095005642EF /* main.m in Sources */,
 				EEE99A661A69C47C00D35D2F /* TableViewCellStyleTableViewCell.m in Sources */,
+				EEE99A721A6AECF900D35D2F /* EntryController.m in Sources */,
 				EEE99A5C1A68586700D35D2F /* ListViewController.m in Sources */,
 				EE5D87F61A6617CD0000A9F9 /* DetailViewController.m in Sources */,
 			);

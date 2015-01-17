@@ -8,8 +8,8 @@
 
 #import "ListViewController.h"
 #import "DetailViewController.h"
-#import "Entry.h"
 #import "TableViewCellStyleTableViewCell.h"
+#import "EntryController.h"
 
 @interface ListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong)UITableView *tableView;
@@ -22,20 +22,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"List View";
+    self.title = @"Entries";
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+    
     UIBarButtonItem *addEntryButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addEntry:)];
     self.navigationItem.rightBarButtonItem = addEntryButton;
     
+    
+    
     //Entry Controller Stuff
     
-    self.entryArrayFromDefaults = [self loadEntriesFromDefaults];
-    NSMutableArray *mutableEntryArrayFromDefaults = [NSMutableArray arrayWithArray:self.entryArrayFromDefaults];
-    self.rowCount = [self.entryArrayFromDefaults count];
+    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
+    
+    self.rowCount = [entryArrayFromDefaults count];
 //    
 //    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
 //    [newEntryDict setValue:@"The Next Day" forKey:titleKey];
@@ -47,26 +52,6 @@
 //    
 //    [self storeEntriesToDefaults:mutableEntryArrayFromDefaults];
     
-}
-
--(NSArray *)loadEntriesFromDefaults{
-    NSArray *entryDictionaries = [[NSUserDefaults standardUserDefaults] objectForKey:@"Entries"];
-    NSMutableArray *mutableEntryArray = [NSMutableArray array];
-    for (NSDictionary *entryDict in entryDictionaries) {
-        Entry *entry = [[Entry alloc] initWithDictionary:entryDict];
-        [mutableEntryArray addObject:entry];
-    }
-    return mutableEntryArray;
-}
-
--(void)storeEntriesToDefaults:(NSArray *)entryArray{
-    NSMutableArray *mutableEntryDictionaries = [NSMutableArray array];
-    for (Entry *entry in entryArray) {
-        NSDictionary *entryDictionary = [entry entryDictionary];
-        [mutableEntryDictionaries addObject:entryDictionary];
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:mutableEntryDictionaries forKey:@"Entries"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
@@ -88,8 +73,8 @@
     if (!cell){
         cell = [TableViewCellStyleTableViewCell new];
     }
-    Entry *entry = [Entry new];
-    entry = [self.entryArrayFromDefaults objectAtIndex:indexPath.row];
+    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
+    Entry *entry = [entryArrayFromDefaults objectAtIndex:indexPath.row];
     
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"dd-MM-yyyy 'at' HH:mm"];
@@ -108,7 +93,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
-
+    
+    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
+    Entry *entry = [entryArrayFromDefaults objectAtIndex:indexPath.row];
+    [detailViewController updateWithEntry:entry];
+    
     detailViewController.entryIndex = indexPath.row;
     //NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
 }

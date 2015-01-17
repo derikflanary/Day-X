@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EntryController.h"
 
-static NSString *entryKey = @"entryKey";
-static NSString *titleKey = @"titleKey";
-static NSString *textKey = @"textKey";
-static NSString *dateKey = @"dateKey";
+
+
 
 @interface DetailViewController : UIViewController
 
 @property (nonatomic, assign)NSInteger entryIndex;
+@property (nonatomic, strong)NSDictionary *entryDictionary;
+
+- (void)updateWithEntry:(Entry *)entry;
 
 
 @end
