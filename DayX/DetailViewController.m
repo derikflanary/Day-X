@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong)UILabel *charCountLabel;
 
+
 @property (weak, nonatomic) IBOutlet UIButton *clearButton;
 
 
@@ -23,9 +24,14 @@
 
 @implementation DetailViewController
 
+- (void)updateWithEntry:(Entry *)entry {
+    
+    self.textField.text = self.thisEntry.title;
+    self.textView.text = self.thisEntry.text;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"Day X";
     self.textField.delegate = self;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
@@ -39,7 +45,9 @@
     
     self.textView.delegate = self;
     
-    [self updateWithDictionary];
+    [self updateWithEntry:self.thisEntry];
+   
+    
     NSInteger charCount = [self.textView.text length];
     self.charCountLabel.text = [@(charCount) stringValue];
 }
@@ -57,14 +65,13 @@
     return YES;
 }
 
+
 - (void) donePressed:(id)sender {
     [self.textField resignFirstResponder];
     [self.textView resignFirstResponder];
-   
 }
 
 - (IBAction)savePressed:(id)sender {
-    
     NSString *title = self.textField.text;
     NSString *text = self.textView.text;
     NSDate *date = [NSDate date];
@@ -72,29 +79,15 @@
     entriesDict = @{@"titleKey": title,
                     @"textKey": text,
                     @"dateKey": date};
-    
-    Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
-    [[EntryController sharedInstance]addEntry:changedEntry];
-    
-}
+    if (self.thisEntry == nil) {
+        Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
+        [[EntryController sharedInstance]addEntry:changedEntry];
 
-- (void)updateWithEntry:(Entry *)entry {
-    
-    self.textField.text = entry.title;
-    self.textView.text = entry.text;
-
-    
-    
-   
-    
-}
-
--(void)updateWithDictionary{
-
-    
-    
-    
+    }else{
+        Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
+        [[EntryController sharedInstance]replaceEntry:self.thisEntry withEntry:changedEntry];        //[EntryController sharedInstance]
     }
+}
 
 - (IBAction)clearButtonPressed:(id)sender {
     self.textField.text = nil;

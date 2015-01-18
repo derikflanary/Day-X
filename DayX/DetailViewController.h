@@ -16,6 +16,7 @@
 
 @property (nonatomic, assign)NSInteger entryIndex;
 @property (nonatomic, strong)NSDictionary *entryDictionary;
+@property (nonatomic, strong)Entry *thisEntry;
 
 - (void)updateWithEntry:(Entry *)entry;
 

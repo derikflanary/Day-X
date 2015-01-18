@@ -55,8 +55,18 @@ static NSString * const entryKey = @"entries";
     
 }
 
-- (void)replaceEntry:(NSDictionary *)oldEntry withEntry:(NSDictionary *)newEntry{
+- (void)replaceEntry:(Entry *)oldEntry withEntry:(Entry *)newEntry{
+    if (!oldEntry || !newEntry){
+        return;
+    }
     
+    NSMutableArray *mutableEntries = self.entries.mutableCopy;
+    if ([mutableEntries containsObject:oldEntry]){
+        NSInteger indexN = [mutableEntries indexOfObject:oldEntry];
+        [mutableEntries replaceObjectAtIndex:indexN withObject:newEntry];
+    }
+    self.entries = mutableEntries;
+    [self storeEntriesToDefaults:self.entries];
     
 }
 

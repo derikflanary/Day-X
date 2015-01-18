@@ -26,6 +26,7 @@
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
     [self.view addSubview:self.tableView];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
@@ -92,11 +93,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     DetailViewController *detailViewController = [DetailViewController new];
-    [self.navigationController pushViewController:detailViewController animated:YES];
     
     NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
     Entry *entry = [entryArrayFromDefaults objectAtIndex:indexPath.row];
-    [detailViewController updateWithEntry:entry];
+    
+    detailViewController.thisEntry = entry;
+    //[detailViewController updateWithEntry:entry];
+    [self.navigationController pushViewController:detailViewController animated:YES];
     
     detailViewController.entryIndex = indexPath.row;
     //NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
