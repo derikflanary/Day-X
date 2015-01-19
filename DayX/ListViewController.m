@@ -20,6 +20,16 @@
 
 @implementation ListViewController
 
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
+    
+    self.rowCount = [entryArrayFromDefaults count];
+    [self.tableView reloadData];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Entries";
@@ -42,17 +52,6 @@
     NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
     
     self.rowCount = [entryArrayFromDefaults count];
-//    
-//    NSMutableDictionary *newEntryDict = [NSMutableDictionary dictionary];
-//    [newEntryDict setValue:@"The Next Day" forKey:titleKey];
-//    [newEntryDict setValue:@"This day was awful" forKey:textKey];
-//    [newEntryDict setValue:[NSDate date] forKey:dateKey];
-//
-//    Entry *newEntry = [[Entry alloc]initWithDictionary:newEntryDict];
-//    [mutableEntryArrayFromDefaults addObject:newEntry];
-//    
-//    [self storeEntriesToDefaults:mutableEntryArrayFromDefaults];
-    
 }
 
 

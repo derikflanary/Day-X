@@ -87,6 +87,7 @@
         Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
         [[EntryController sharedInstance]replaceEntry:self.thisEntry withEntry:changedEntry];        //[EntryController sharedInstance]
     }
+     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)clearButtonPressed:(id)sender {
