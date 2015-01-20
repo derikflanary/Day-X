@@ -24,7 +24,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
-    
+    self.tableView.frame = self.view.bounds;
     self.rowCount = [entryArrayFromDefaults count];
     [self.tableView reloadData];
     
@@ -34,9 +34,9 @@
     [super viewDidLoad];
     self.title = @"Entries";
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame];
+    //self.tableView.frame = self.view.bounds;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
     [self.view addSubview:self.tableView];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
@@ -44,17 +44,13 @@
     
     UIBarButtonItem *addEntryButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addEntry:)];
     self.navigationItem.rightBarButtonItem = addEntryButton;
-    
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
     //Entry Controller Stuff
-    
     NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
-    
     self.rowCount = [entryArrayFromDefaults count];
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +59,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    self.rowCount = [[EntryController sharedInstance].entries count];
     return self.rowCount;
 }
 
@@ -119,12 +116,12 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 //    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        NSArray*entryArray = [EntryController sharedInstance].entries;
-//        NSMutableArray *entryArrayFromDefaults = entryArray.mutableCopy;
-//        [entryArrayFromDefaults removeObjectAtIndex:indexPath.row];
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//        //add code here for when you hit delete
-//    }
+        NSArray*entryArray = [EntryController sharedInstance].entries;
+//       
+    Entry *entry = [entryArray objectAtIndex:indexPath.row];
+    [[EntryController sharedInstance]removeEntry:entry];
+    [self.tableView reloadData];
+//        //    }
 }
 
 
