@@ -45,7 +45,7 @@
     UIBarButtonItem *addEntryButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addEntry:)];
     self.navigationItem.rightBarButtonItem = addEntryButton;
     
-    
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
     //Entry Controller Stuff
     
@@ -110,6 +110,22 @@
     
 }
 
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//    // Return YES if you want the specified item to be editable.
+//    
+//    return YES;
+//}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        NSArray*entryArray = [EntryController sharedInstance].entries;
+//        NSMutableArray *entryArrayFromDefaults = entryArray.mutableCopy;
+//        [entryArrayFromDefaults removeObjectAtIndex:indexPath.row];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        //add code here for when you hit delete
+//    }
+}
 
 
 /*
