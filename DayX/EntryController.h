@@ -8,17 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "Entry.h"
+#import <CoreData/CoreData.h>
 
 @interface EntryController : NSObject
 
-@property (readonly, strong)NSArray *entries;
+@property (readonly, strong, nonatomic)NSArray *entries;
 
 + (EntryController *)sharedInstance;
-
--(void)addEntry:(Entry *)entry;
 -(void)removeEntry:(Entry *)entry;
-- (void)replaceEntry:(Entry *)oldEntry withEntry:(Entry *)newEntry;
-
-
-
+-(void)synchronize;
+-(void)addEntryWithTitle:(NSString *)title andText:(NSString *)text;
+-(NSArray *)entries;
 @end

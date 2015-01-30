@@ -12,6 +12,7 @@
 
 
 
+
 @interface DetailViewController : UIViewController
 
 @property (nonatomic, assign)NSInteger entryIndex;

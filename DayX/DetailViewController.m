@@ -26,19 +26,22 @@
 
 - (void)updateWithEntry:(Entry *)entry {
     
-    self.textField.text = self.thisEntry.title;
-    self.textView.text = self.thisEntry.text;
+    
+        self.textField.text = self.thisEntry.title;
+        self.textView.text = self.thisEntry.text;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Day X";
     self.textField.delegate = self;
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed:)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(savePressed:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
     self.navigationItem.prompt = @"Add an entry";
-    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
     self.charCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 400, 100, 30)];
     self.charCountLabel.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.charCountLabel];
@@ -65,6 +68,11 @@
     return YES;
 }
 
+-(void)dismissKeyboard{
+    [self.textView resignFirstResponder];
+    [self.textField resignFirstResponder];
+}
+
 
 - (void) donePressed:(id)sender {
     [self.textField resignFirstResponder];
@@ -72,22 +80,17 @@
 }
 
 - (IBAction)savePressed:(id)sender {
-    NSString *title = self.textField.text;
-    NSString *text = self.textView.text;
-    NSDate *date = [NSDate date];
-    NSDictionary *entriesDict;
-    entriesDict = @{@"titleKey": title,
-                    @"textKey": text,
-                    @"dateKey": date};
-    if (self.thisEntry == nil) {
-        Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
-        [[EntryController sharedInstance]addEntry:changedEntry];
-
+    
+    if (!self.thisEntry){
+        
+    [[EntryController sharedInstance] addEntryWithTitle:self.textField.text andText:self.textView.text];
     }else{
-        Entry *changedEntry = [[Entry alloc] initWithDictionary:entriesDict];
-        [[EntryController sharedInstance]replaceEntry:self.thisEntry withEntry:changedEntry];        //[EntryController sharedInstance]
+        self.thisEntry.title = self.textField.text;
+        self.thisEntry.text = self.textView.text;
+        self.thisEntry.date = [NSDate date];
     }
-     [self.navigationController popViewControllerAnimated:YES];
+    [[EntryController sharedInstance] synchronize];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)clearButtonPressed:(id)sender {
