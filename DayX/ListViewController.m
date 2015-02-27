@@ -10,11 +10,12 @@
 #import "DetailViewController.h"
 #import "TableViewCellStyleTableViewCell.h"
 #import "EntryController.h"
+#import "Stack.h"
 
-@interface ListViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface ListViewController ()<UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, assign)NSInteger rowCount;
-
+@property (nonatomic, strong)NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -23,10 +24,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
+//    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
     self.tableView.frame = self.view.bounds;
-    self.rowCount = [entryArrayFromDefaults count];
-    [self.tableView reloadData];
+//    self.rowCount = [entryArrayFromDefaults count];
+//    [self.tableView reloadData];
     
 }
 
@@ -38,6 +39,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
+    [self configureFetchedResultsController];
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
     self.navigationItem.backBarButtonItem = backButton;
@@ -47,8 +49,6 @@
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
     //Entry Controller Stuff
-    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
-    self.rowCount = [entryArrayFromDefaults count];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
 }
 
@@ -57,9 +57,19 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - table view datasource
+/////////////DATA SOURCE METHODS///////////////
+
+-(void)configureFetchedResultsController{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Entry"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:[Stack sharedInstance].managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    self.fetchedResultsController.delegate = self;
+    [self.fetchedResultsController performFetch:nil];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    self.rowCount = [[EntryController sharedInstance].entries count];
+    self.rowCount = self.fetchedResultsController.fetchedObjects.count;
     return self.rowCount;
 }
 
@@ -70,8 +80,8 @@
     if (!cell){
         cell = [TableViewCellStyleTableViewCell new];
     }
-    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
-    Entry *entry = [entryArrayFromDefaults objectAtIndex:indexPath.row];
+    
+    Entry *entry = self.fetchedResultsController.fetchedObjects[indexPath.row];
     
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"dd-MM-yyyy 'at' HH:mm"];
@@ -83,44 +93,61 @@
     return cell;
 }
 
+////////////////////////////////////////
+#pragma mark - FetchedResultsController Delegate
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+        case NSFetchedResultsChangeMove:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeUpdate:
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+        default:
+            break;
+    }
+}
+#pragma mark - table view delegate
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 75;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    DetailViewController *detailViewController = [DetailViewController new];
-    
-    NSArray *entryArrayFromDefaults = [EntryController sharedInstance].entries;
-    Entry *entry = [entryArrayFromDefaults objectAtIndex:indexPath.row];
-    
-    detailViewController.thisEntry = entry;
-    //[detailViewController updateWithEntry:entry];
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    
-    detailViewController.entryIndex = indexPath.row;
-    //NSLog(@"%lu, %lu", detailViewController.entryIndex, indexPath.row);
+    NSLog(@"%ld", (long)indexPath.row);
+//    DetailViewController *detailViewController = [DetailViewController new];
+//    [detailViewController updateWithEntry:self.fetchedResultsController.fetchedObjects[indexPath.row]];
+//    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)addEntry:(id)sender{
     DetailViewController *detailViewController = [DetailViewController new];
     [self.navigationController pushViewController:detailViewController animated:YES];
-    
 }
 
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    // Return YES if you want the specified item to be editable.
-//    
-//    return YES;
-//}
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
         NSArray*entryArray = [EntryController sharedInstance].entries;
-//       
     Entry *entry = [entryArray objectAtIndex:indexPath.row];
     [[EntryController sharedInstance]removeEntry:entry];
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
 //        //    }
 }
 

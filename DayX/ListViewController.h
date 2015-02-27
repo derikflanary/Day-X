@@ -10,6 +10,6 @@
 
 @interface ListViewController : UIViewController
 
-
+-(void)configureFetchedResultsController;
 
 @end

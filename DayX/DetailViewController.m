@@ -20,21 +20,21 @@
 
 @end
 
-
-
 @implementation DetailViewController
 
 - (void)updateWithEntry:(Entry *)entry {
     
-    
-        self.textField.text = self.thisEntry.title;
-        self.textView.text = self.thisEntry.text;
-    
+    self.thisEntry = entry;
+        self.textField.text = entry.title;
+        self.textView.text = entry.text;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Day X";
+    self.textField.text = self.thisEntry.title;
+    self.textView.text = self.thisEntry.text;
+    
     self.textField.delegate = self;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(savePressed:)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -42,18 +42,17 @@
     self.navigationItem.prompt = @"Add an entry";
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+    
     self.charCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 400, 100, 30)];
     self.charCountLabel.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:self.charCountLabel];
+    NSInteger charCount = [self.textView.text length];
+    self.charCountLabel.text = [@(charCount) stringValue];
     
     self.textView.delegate = self;
     
-    [self updateWithEntry:self.thisEntry];
-   
-    
-    NSInteger charCount = [self.textView.text length];
-    self.charCountLabel.text = [@(charCount) stringValue];
-}
+    //[self updateWithEntry:self.thisEntry];
+    }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
